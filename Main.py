@@ -58,5 +58,15 @@ else:
         st.warning("No data available for the selected options.")
     else:
         # Create interactive visualization using Plotly
-        fig = px.line(filtered_data, x='Year', y='Value', title=f'{selected_characteristic} Over Time', color_discrete_sequence=['#FFA07A'])
+        fig = px.line(filtered_data, x='Year', y='Value', title=f'{selected_characteristic} Over Time', 
+                      labels={'Value': 'Value (x1000)'}, color_discrete_sequence=['#FFA07A'])
         st.plotly_chart(fig)
+        
+        # Button to download data as CSV
+        csv = filtered_data.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="Download data as CSV",
+            data=csv,
+            file_name='filtered_data.csv',
+            mime='text/csv',
+        )
